@@ -3,9 +3,9 @@ sequenceDiagram
   participant browser
   participant server
 
-  broser ->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+  browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
   activate server
-  server ->> browser: HTML document / status 302
+  server->>browser: HTML document / status 302
   deactivate server
 
   Note right of browser: The browser sends via form the note entered by the user
