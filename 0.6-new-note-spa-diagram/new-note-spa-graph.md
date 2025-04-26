@@ -27,8 +27,7 @@ sequenceDiagram
   server-->>browser: Error / status 404 / no favicon is rendered
   deactivate server
 
-  Note right of browser: The browser fails to execute the FaviconLoader.
-  sys.mjs and returns a 404 not found
+  Note right of browser: The browser fails to execute the FaviconLoader.sys.mjs and returns a 404 not found
 
   browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
   activate server
