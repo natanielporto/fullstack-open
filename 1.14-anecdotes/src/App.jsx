@@ -54,6 +54,7 @@ const App = () => {
       <br />
       <h3>Anecdote with most votes</h3>
       <p>{mostVoted.text}</p>
+      <p>has {mostVoted.values} votes</p>
     </div>
   );
 };
