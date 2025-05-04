@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { People } from "./components/People";
-import { deletePerson, getPeople, postPerson } from "./api";
+import { deletePerson, getPeople, postPerson, updatePerson } from "./api";
 
 const App = () => {
   const [initialData, setInitialData] = useState([]);
@@ -42,10 +42,32 @@ const App = () => {
     const nameAlreadyExists = people.find((person) => person.name === newName);
 
     if (nameAlreadyExists) {
-      return alert(`${newName} is already added to phonebook`);
-    }
-    if (newName === "" || newPhone === "") {
-      return alert("Name and phone must be provided.");
+      const answer = window.confirm(
+        `${nameAlreadyExists.name} is already added to phonebook, replace the old number with a new one?`
+      );
+
+      if (answer) {
+        return updatePerson(nameAlreadyExists.id, newPhone).then((response) => {
+          setInitialData(
+            initialData.map((person) => {
+              if (person.id === response.id) {
+                return { ...person, number: newPhone };
+              }
+              return person;
+            })
+          );
+          setPeople(
+            people.map((person) => {
+              if (person.id === response.id) {
+                return { ...person, number: newPhone };
+              }
+              return person;
+            })
+          );
+        });
+      } else {
+        return;
+      }
     }
 
     const person = { newName, newPhone };
@@ -57,11 +79,17 @@ const App = () => {
     setNewPhone("");
   };
 
-  const handleDeletePerson = (id) => {
-    deletePerson(id).then((data) => {
-      setInitialData(initialData.filter((person) => person.id !== data.id));
-      setPeople(initialData.filter((person) => person.id !== data.id));
-    });
+  const handleDeletePerson = (id, name) => {
+    const answer = window.confirm(`Delete ${name}?`);
+
+    if (answer) {
+      deletePerson(id).then((data) => {
+        setInitialData(initialData.filter((person) => person.id !== data.id));
+        setPeople(initialData.filter((person) => person.id !== data.id));
+      });
+    } else {
+      return;
+    }
   };
 
   return (

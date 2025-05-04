@@ -1,6 +1,7 @@
 import React from "react";
 
 export const People = ({ data, deleteFunction }) => {
+  console.log("🚀 ~ People ~ data:", data);
   return data.map(({ name, number, id }) => (
     <div
       key={`${name}+${number}+${id}`}
@@ -12,7 +13,7 @@ export const People = ({ data, deleteFunction }) => {
       }}
     >
       <div>{`${name} ${number}`}</div>
-      <button onClick={() => deleteFunction(id)}>Delete</button>
+      <button onClick={() => deleteFunction(id, name)}>Delete</button>
     </div>
   ));
 };
