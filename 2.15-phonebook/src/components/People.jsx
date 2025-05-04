@@ -12,7 +12,7 @@ export const People = ({ data, deleteFunction }) => {
       }}
     >
       <div>{`${name} ${number}`}</div>
-      <button onClick={() => deleteFunction(id, name)}>Delete</button>
+      <button onClick={() => deleteFunction(id)}>Delete</button>
     </div>
   ));
 };

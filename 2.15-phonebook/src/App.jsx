@@ -57,17 +57,11 @@ const App = () => {
     setNewPhone("");
   };
 
-  const handleDeletePerson = (id, name) => {
-    const answer = window.confirm(`Delete ${name}?`);
-
-    if (answer) {
-      deletePerson(id).then((data) => {
-        setInitialData(initialData.filter((person) => person.id !== data.id));
-        setPeople(initialData.filter((person) => person.id !== data.id));
-      });
-    } else {
-      return;
-    }
+  const handleDeletePerson = (id) => {
+    deletePerson(id).then((data) => {
+      setInitialData(initialData.filter((person) => person.id !== data.id));
+      setPeople(initialData.filter((person) => person.id !== data.id));
+    });
   };
 
   return (
