@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { People } from "./components/People";
-import { getPeople, postPerson } from "./api";
+import { deletePerson, getPeople, postPerson } from "./api";
 
 const App = () => {
-  const [initialData, setIitialData] = useState([]);
+  const [initialData, setInitialData] = useState([]);
   const [people, setPeople] = useState([]);
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
 
   useEffect(() => {
     getPeople().then((response) => {
-      setIitialData(response);
+      setInitialData(response);
       setPeople(response);
     });
   }, []);
@@ -50,11 +50,18 @@ const App = () => {
 
     const person = { newName, newPhone };
     postPerson(person).then((returnedNote) => {
-      setIitialData(initialData.concat(returnedNote));
+      setInitialData(initialData.concat(returnedNote));
       setPeople(people.concat(returnedNote));
     });
     setNewName("");
     setNewPhone("");
+  };
+
+  const handleDeletePerson = (id) => {
+    deletePerson(id).then((data) => {
+      setInitialData(initialData.filter((person) => person.id !== data.id));
+      setPeople(initialData.filter((person) => person.id !== data.id));
+    });
   };
 
   return (
@@ -70,7 +77,9 @@ const App = () => {
         onSubmit={(e) => handleAddPerson(e)}
       />
       <h2>Numbers</h2>
-      {people.length > 0 && <People data={people} />}
+      {people.length > 0 && (
+        <People data={people} deleteFunction={handleDeletePerson} />
+      )}
     </div>
   );
 };
